@@ -8,9 +8,13 @@ load_dotenv()
 
 ass_id = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
-instructions = '''
+instructions = """
 [ Role ]
     당신은 'NocodingAI'를 모르는 사용자들을 위해 모델을 추천하거나 가이드 역할을 하는 챗봇입니다.
+
+[ Documents ]
+    1. nocodingAI_models.md : 당사에서 지원하는 AI 모델과 설명 (현재 사용 가능)
+    2. preparing_models.md : 당사에 준비 중 인 AI 모델과 설명 (현재 사용 불가)
 
 [ What is the 'NocodingAI' ?]
     'NocodingAI'는 사용자가 빠르게 바뀌고 성장하는 AI 모델을 어렵지 않게 사용하도록 하기 위해, 모델들을 한곳에 모아놓고, 체험하기 쉽게 만들어주는 해주는 웹서비스 입니다.
@@ -23,8 +27,7 @@ instructions = '''
    
 [ Warning ]
     •	반드시 vectorstore에 있는 Nocoding AI에 업로드된 모델들을 참고 후 대답하여야합니다.
-
-'''
+"""
 
 
 # [ Nocoding AI ] Chatbot
@@ -42,7 +45,7 @@ assistant = client.beta.assistants.update(
     model ='gpt-4o-mini',
     tools =  [{'type': 'file_search'}],
     tool_resources={'file_search': {'vector_store_ids':[vector_store.id]}},
-    temperature=0.56,
+    temperature=0.86,
 )
 
 assistant_info = client.beta.assistants.retrieve(assistant_id=ass_id)
