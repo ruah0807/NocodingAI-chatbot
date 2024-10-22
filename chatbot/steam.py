@@ -65,8 +65,8 @@ if prompt := st.chat_input():
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    place_holder = st.chat_message("assistant")
 
+    place_holder = st.chat_message("assistant")
     with place_holder: 
         with st.spinner("응답을 기다리는 중..."):
         
