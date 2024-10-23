@@ -2,7 +2,7 @@ import os, sys, time
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import streamlit as st
 from init import client,api_key
-from stream.sidebar import openai_api_key
+from stream.sidebar import render_sidebar
 
 ass_id = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
@@ -22,7 +22,7 @@ def chatbot_page():
         st.chat_message(msg["role"]).write(msg["content"])
 
     if prompt := st.chat_input():
-        if not openai_api_key:
+        if not render_sidebar.openai_api_key:
             st.info("Please add your OpenAI API key to continue.")
             st.stop()
         if st.session_state["thread_id"] is None:
