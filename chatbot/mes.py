@@ -5,7 +5,7 @@ from openai import OpenAI
 import streamlit as st
 from init import client,api_key
 
-ass_id = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
+ASSISTANT_ID = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
 if "openai_api_key" not in st.session_state:
     st.session_state["openai_api_key"] = api_key
@@ -79,7 +79,7 @@ if prompt := st.chat_input():
 
             run = client.beta.threads.runs.create(
                 thread_id= st.session_state["thread_id"],
-                assistant_id=ass_id,
+                assistant_id=ASSISTANT_ID,
             )
             run_id = run.id
 

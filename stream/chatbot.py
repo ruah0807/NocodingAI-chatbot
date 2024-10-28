@@ -4,7 +4,7 @@ import streamlit as st
 from init import client,api_key
 from stream.sidebar import render_sidebar
 
-ass_id = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
+ASSISTANT_ID = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
 
 def chatbot_page():
@@ -45,7 +45,7 @@ def chatbot_page():
 
                 run = client.beta.threads.runs.create(
                     thread_id= st.session_state["thread_id"],
-                    assistant_id=ass_id,
+                    assistant_id=ASSISTANT_ID,
                 )
                 run_id = run.id
 
