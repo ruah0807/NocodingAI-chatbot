@@ -6,7 +6,7 @@ from init import client
 
 load_dotenv()
 
-ass_id = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
+ASSISTANT_ID = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
 instructions = """
 [ Role ]
@@ -39,7 +39,7 @@ vector_store = client.beta.vector_stores.update(
 
 ### 어시스턴트 업데이트
 assistant = client.beta.assistants.update(
-    assistant_id= ass_id,
+    assistant_id= ASSISTANT_ID,
     name= 'NoCoding AI ChatBot🤖',
     instructions = instructions,
     model ='gpt-4o-mini',
@@ -48,7 +48,7 @@ assistant = client.beta.assistants.update(
     temperature=0.86,
 )
 
-assistant_info = client.beta.assistants.retrieve(assistant_id=ass_id)
+assistant_info = client.beta.assistants.retrieve(assistant_id=ASSISTANT_ID)
 print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 
 
@@ -57,12 +57,12 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-# ### 백터스토어 생성및 파일 임베딩 업로드 ####
+# ### Create file store & Upload files embedding ####
 # vector_store = client.beta.vector_stores.create(
 #     name = '[ Nocoding AI ] Chatbot',
 # )
 
-# # #업로드할 파일들의 경로를 지정
+# # file path to upload
 # files_to_uploaded = [
 #     '/Users/ainomis_dev/Desktop/ainomis/chatbot-nocoding/.docs/nocodingAI_models.md',
 #     '/Users/ainomis_dev/Desktop/ainomis/chatbot-nocoding/.docs/preparing_models.md',
@@ -70,7 +70,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 
 # file_streams = [open(path, 'rb') for path in files_to_uploaded]
 
-# # 파일 업로드 및 백터 스토어에 추가
+# # upload and add to vectorstore
 # file_batch = client.beta.vector_stores.file_batches.upload_and_poll(
 #     vector_store_id=vector_store.id, files = file_streams
 # )
@@ -79,7 +79,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-# #### 어시스턴트 리스트 검색 ####
+# #### Searching Assistant List####
 # assistant_list = client.beta.assistants.list()
 
 # for assistant in assistant_list:
@@ -89,7 +89,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-## vectorstore 삭제 ###
+## Delete Vectorstore ###
 # vector_store = client.beta.vector_stores.delete(
 #     vector_store_id='vs_iuSR8xFYdZML64ycdt8TC6BW'
 # )
@@ -98,7 +98,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-# ## 벡터스토어 리스트 검색 ###
+# ## Search Vectorstore List ###
 # vector_store_list = client.beta.vector_stores.list()
 
 # for vectorstore in vector_store_list:
@@ -106,7 +106,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 
 ################################################################
 
-# # ## 백터스토어 아이디 안 파일 리스트 ####
+# # ## Search the count of files in a vectorst ####
 # vector_store_files = client.beta.vector_stores.retrieve(
 #     vector_store_id='vs_0dJoKkouQ6Qa7HbczRnwC1VG',
 # )
