@@ -10,11 +10,11 @@ ASSISTANT_ID = 'asst_j7j218aEcKkMVWNkXiUH9QVQ'
 
 instructions = """
 [ Role ]
-    당신은 'NocodingAI'를 모르는 사용자들을 위해 모델을 추천하거나 가이드 역할을 하는 챗봇입니다.
+    당신은 'NocodingAI'를 모르는 사용자들을 위해 가이드 또는 모델을 추천하는 역할을 하는 챗봇입니다.
 
 [ Documents ]
-    1. nocodingAI_models.md : 당사에서 지원하는 AI 모델과 설명 (현재 사용 가능)
-    2. preparing_models.md : 당사에 준비 중 인 AI 모델과 설명 (현재 사용 불가)
+    1. overview_nocodingAI_models.md : 당사에서 지원하는 AI 모델과 설명 
+    2. detail_models_nocodingai.md : 몇가지 모델의 좀더 디테일한 설명
 
 [ What is the 'NocodingAI' ?]
     'NocodingAI'는 사용자가 빠르게 바뀌고 성장하는 AI 모델을 어렵지 않게 사용하도록 하기 위해, 모델들을 한곳에 모아놓고, 체험하기 쉽게 만들어주는 해주는 웹서비스 입니다.
@@ -23,7 +23,7 @@ instructions = """
 [ Introductions ]
     1. 사용자가 대화를 원하는 언어를 선택하게 합니다.
     2. Nocoidng AI의 모델을 어떻게 사용하면되는지 대답합니다.
-    3. 사용자가 만들고자하는 웹서비스를 입력한다면, 모델과 그에대한 정보를 추천합니다.
+    3. 사용자가 만들고자하는 웹서비스를 입력한다면, 모델과 그에대한 정보를 추천합니다. 혹은 모델추천 이외의 사용자의 질문에 다양하게 답변하세요.
    
 [ Warning ]
     •	반드시 vectorstore에 있는 Nocoding AI에 업로드된 모델들을 참고 후 대답하여야합니다.
@@ -32,7 +32,7 @@ instructions = """
 
 # [ Nocoding AI ] Chatbot
 vector_store = client.beta.vector_stores.update(
-    vector_store_id= 'vs_iuWC5kHGiffRSzSfa0eMaMxs'
+    vector_store_id= 'vs_mqKG3tA390T6ZMFyRqBWGok2'
 )
 
 
@@ -57,15 +57,15 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-# ### Create file store & Upload files embedding ####
+### Create file store & Upload files embedding ####
 # vector_store = client.beta.vector_stores.create(
-#     name = '[ Nocoding AI ] Chatbot',
+#     name = '[ Nocoding AI ] Chatbot | update : 2024-10-29',
 # )
 
 # # file path to upload
 # files_to_uploaded = [
-#     '/Users/ainomis_dev/Desktop/ainomis/chatbot-nocoding/.docs/nocodingAI_models.md',
-#     '/Users/ainomis_dev/Desktop/ainomis/chatbot-nocoding/.docs/preparing_models.md',
+#     '/Users/ainomis_dev/Desktop/ainomis/nocoding/chatbot-nocoding/.docs/detail_models_nocodingai.md',
+#     '/Users/ainomis_dev/Desktop/ainomis/nocoding/chatbot-nocoding/.docs/overview_nocodingAI_models.md',
 # ]
 
 # file_streams = [open(path, 'rb') for path in files_to_uploaded]
@@ -89,13 +89,13 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 ###############################################################
 
 
-## Delete Vectorstore ###
+# # Delete Vectorstore ###
 # vector_store = client.beta.vector_stores.delete(
-#     vector_store_id='vs_iuSR8xFYdZML64ycdt8TC6BW'
+#     vector_store_id='vs_XOcvRLsWuHsNNh2WWVS7diBy'
 # )
 
 
-###############################################################
+# ###############################################################
 
 
 # ## Search Vectorstore List ###
@@ -108,7 +108,7 @@ print(f"[현재 어시스턴트 정보]\n{assistant_info}")
 
 # # ## Search the count of files in a vectorst ####
 # vector_store_files = client.beta.vector_stores.retrieve(
-#     vector_store_id='vs_0dJoKkouQ6Qa7HbczRnwC1VG',
+#     vector_store_id='vs_XOcvRLsWuHsNNh2WWVS7diBy',
 # )
 # file_ids = vector_store_files.file_counts
 

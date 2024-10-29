@@ -27,7 +27,7 @@ def render_sidebar():
         client = OpenAI(api_key=openai_api_key)
         
         if "openai_api_key" not in st.session_state:
-            st.session_state["openai_api_key"] = api_key
+            st.session_state["openai_api_key"] = openai_api_key
 
         # thread_id = st.text_input("Thread ID")
 

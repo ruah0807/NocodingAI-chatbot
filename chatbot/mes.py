@@ -80,13 +80,44 @@ if prompt := st.chat_input():
             run = client.beta.threads.runs.create(
                 thread_id= st.session_state["thread_id"],
                 assistant_id=ASSISTANT_ID,
+                stream= True,
+                instructions="""
+                [ there are two kind of answer options. you can answer the question follow the instructions. ]
+                    
+                    [ Option 1.]
+                    - If a user asks a question like this, you answer it in the same format.
+                        1. If user wants to get a direction to make there own website
+                        2. If user wants to create something(for example, create an image, etc.)
+                        3. If user wants to recieve the recommended models
+                    - You should suggest a model from the documents that suits the user, 
+                    - All information can be found in the documents which provide a 'NocodingAI link' with a sufficient description of the model. 
+
+                    - Option 1 answer format :
+
+                        (if it's help them, Put your answer and total instructions or whatever you want to say. It would be great also to give advice.)
+                        
+                        1. (model 1)
+                            - introduction : (why this model suits user) 
+                            - Link : (only put 'nocodingAI Link' from the documents)
+                            
+                        // ... If there are more models you would like to reommend, please list them in order.
+
+
+                    [ Option 2. ]
+                    - If a user asks a general question rather than a model, there is no need to follow 'Option 1 answer format'. Give the answer you want. 
+                    - It should be a nocodingAI-related response.
+                    - All information can be found in the documents which provide a 'NocodingAI link' with a sufficient description of the model. 
+                    
+                    - Option 2 answer format :
+                        (whatever you can answer about relate 'NocodingAI' in order to help the user.)
+                """
             )
             run_id = run.id
 
             while True:
                 run = client.beta.threads.runs.retrieve(
                     thread_id=st.session_state["thread_id"],
-                    run_id=run_id
+                    run_id=run_id,
                 )
                 if run.status == "completed":
                     break
