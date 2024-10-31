@@ -50,34 +50,33 @@ def chatbot_page(delay = 0.05):
                     assistant_id=ASSISTANT_ID,
                     stream=True,
                     instructions="""
-                    [ there are two kind of answer options. you can answer the question follow the instructions. ]
-                    
-                    [ Option 1.]
-                    - If a user asks a question like this, you answer it in the same format.
-                        1. If user wants to get a direction to make there own website
-                        2. If user wants to create something(for example, create an image, etc.)
-                        3. If user wants to recieve the recommended models
-                    - You should suggest a model from the documents that suits the user, 
-                    - All information can be found in the documents which provide a 'NocodingAI link' with a sufficient description of the model. 
+                    - Answer the question with user's language.
+                    - Only answer questions related to NocodingAI. Do not respond to other inquiries.
+                        - Thins related to 'NocodingAI' :
+                            - making their own website.
+                            - using AI model only from document
+                            - recommend the models.
+                            - having side job with AI.
+                            - solo developer
+                            - AI models from documents
+                            - greeting
 
-                    - Option 1 answer format :
-
-                        (if it's help them, Put your answer and total instructions or whatever you want to say. It would be great also to give advice.)
+                    - If the user makes the following requests, respond in the specified format:
+                        - Find and suggest a suitable model for the user from the documents.
+                        - All information can be obtained from the documents containing sufficient descriptions of the models.
+                    - Answer Format:
+                        - Include any overall instructions or helpful information if necessary. Offering advice is also appreciated.
+                        1.	(Mode's name from document)
+                          -	(Reason for selection or why this model is suitable for the user)
                         
-                        1. (model 1)
-                            - introduction : (why this model suits user) 
-                            - Link : [model's name](link)(only put 'NocodingAI Link' from the documents)
-                            
-                        // ... If there are more models you would like to reommend, please list them in order.
-
-
-                    [ Option 2. ]
-                    - If a user asks a general question rather than a model, there is no need to follow 'Option 1 answer format'. Give the answer you want. 
-                    - It should be a nocodingAI-related response.
-                    - All information can be found in the documents which provide a 'NocodingAI link' with a sufficient description of the model. 
-                    
-                    - Option 2 answer format :
-                        (whatever you can answer about relate 'NocodingAI' in order to help the user.) 
+                        - You can recommend up to 3 models.
+                        - provide the links if the user requests them, Each model has a link in the documents.
+                    - If the user asks a question unrelated to NocodingAI:
+	                    - Please respond in the same language as the user's input:
+                            ex) “I can only answer questions related to NocodingAI. What would you like to create with generative AI? I can recommend suitable models.”
+                    - Don't let them know the sources where you found.
+                    - Do not answer more than 400 characters.
+                    - Do not give the sources.
                 """
                 )
                 print(run)
@@ -90,23 +89,23 @@ def chatbot_page(delay = 0.05):
                 msg = ""  # 스트리밍 중간 상태를 저장하는 임시 변수
                 place_holder = st.empty()  # 한 개의 위치에 메시지를 유지하기 위한 공간
                 
-                # 스트리밍을 통해 실시간으로 업데이트하고, 완료 시에만 최종 메시지 출력
-                for event in run:
-                    if hasattr(event, "data") and event.data.object == "thread.message.delta":
-                        delta_content = event.data.delta.content
-                        for item in delta_content:
-                            if hasattr(item, "text") and hasattr(item.text, "value"):
-                                msg += item.text.value
-                                place_holder.markdown(msg + "▌")  # 커서 효과 추가
-                                time.sleep(delay)  # 각 메시지 전송 후 지연
+            # 스트리밍을 통해 실시간으로 업데이트하고, 완료 시에만 최종 메시지 출력
+            for event in run:
+                if hasattr(event, "data") and event.data.object == "thread.message.delta":
+                    delta_content = event.data.delta.content
+                    for item in delta_content:
+                        if hasattr(item, "text") and hasattr(item.text, "value"):
+                            msg += item.text.value
+                            place_holder.markdown(msg + "▌")  # 커서 효과 추가
+                            time.sleep(delay)  # 각 메시지 전송 후 지연
 
-                    elif hasattr(event, "data") and event.data.object == "thread.run.completed":
-                        # 완료되면 루프를 중단
-                        break
+                elif hasattr(event, "data") and event.data.object == "thread.run.completed":
+                    # 완료되면 루프를 중단
+                    break
 
-                # 최종 응답에서 커서를 제거하고, 최종 메시지를 화면에 고정하여 출력
-                place_holder.markdown(msg)
-                st.session_state.messages.append({"role": "assistant", "content": msg})  
+            # 최종 응답에서 커서를 제거하고, 최종 메시지를 화면에 고정하여 출력
+            place_holder.markdown(msg)
+            st.session_state.messages.append({"role": "assistant", "content": msg})  
 
 
 
