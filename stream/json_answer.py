@@ -49,24 +49,24 @@ def chatbot_page(delay = 0.05):
                     thread_id= st.session_state["thread_id"],
                     assistant_id=ASSISTANT_ID,
                     stream=True,
-                    top_p=0,
+                    top_p=1.0,
                     temperature=0,
                     instructions="""
                    	Find the models only in the documents.
-
-                    Response Format : 
-
+                       
                     {{
-                        "answer" : "(total reason)"
-                        "models" : [
-                            {
-                                "model" : "(model name)",
-                                "description" : "(model's description)"
-                            },
-                            ... // If it has more model to recommend.
-                        ] 
+                    {
+                        "answer" : "(total reason)",
+                            "models" : [
+                                {
+                                    "model" : "(model name)",
+                                    "description" : "(model's description)"
+                                },
+                                # ... // If it has more model to recommend.
+                            ]
+                        } 
                     }}
-                """
+                    """,
                 )
                 print(run)
 
