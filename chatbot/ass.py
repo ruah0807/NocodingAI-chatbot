@@ -31,7 +31,6 @@ instructions = """
     3. 사용자가 더 디테일한 응답을 원한다면 전부 제공하세요.
    
 [ Warning ]
-    •	NocodingAI와 관련되지 않은 전혀 쌩뚱맞은 질문에는 절대 답변하지 마세요. 
     •	반드시 vectorstore에 있는 업로드된 문서에 존재하는 AI모델들을 참고 후 대답하여야합니다.
 """
 
@@ -52,8 +51,6 @@ assistant = client.beta.assistants.update(
     model ='gpt-4o-mini',
     tools =  [{'type': 'file_search'}],
     tool_resources={'file_search': {'vector_store_ids':[vector_store.id]}},
-    temperature=0.86,
-    top_p=0.9
 )
 
 assistant_info = client.beta.assistants.retrieve(assistant_id=ASSISTANT_ID)

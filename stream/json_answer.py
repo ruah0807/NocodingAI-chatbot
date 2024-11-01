@@ -12,7 +12,7 @@ def chatbot_page(delay = 0.05):
         st.session_state["openai_api_key"] = api_key
 
 
-    st.title("💬🤖 Nocoding AI Chatbot with streaming")
+    st.title("💬🤖 Nocoding AI Chatbot with json")
     # st.caption("🚀 A Streamlit chatbot powered by OpenAI")
 
     if "messages" not in st.session_state:
@@ -49,27 +49,23 @@ def chatbot_page(delay = 0.05):
                     thread_id= st.session_state["thread_id"],
                     assistant_id=ASSISTANT_ID,
                     stream=True,
-                    top_p=0.99,
-                    temperature=0.76,
+                    top_p=0,
+                    temperature=0,
                     instructions="""
-                   	- 사용자의 언어로 질문에 답변합니다.
+                   	Find the models only in the documents.
 
-                    - 사용자가 다음 요청을 하는 경우 고려사항
-                        1. 문서에서 사용자에게 적합한 모델을 찾아 추천하거나 프롬프트를 제공합니다.
-                        2. 모델에 대한 모든 정보는 문서에서 얻을 수 있음.
-                            - "NocodingAI" 웹 페이지는 문서에 제공된 모든 모델들을 쉽게 사용할수있도록 api를 제공합니다.
-                        3. 프롬프트를 생성해달라는 질문에는 상세하게 답변해주세요.
+                    Response Format : 
 
-                    - 모델 추천 답변 :    
-                        - 최대 3개의 모델 추천.
-
-                    - 프롬프트 생성 답변:
-                        - 사용자가 원하는 프롬프트 생성을 돕습니다. 
-
-                    - 주의사항:
-                        -	출처를 알려주지 않음.
-                        -	400자를 넘지 않도록 답변.
-                        -	출처를 제공하지 않음.
+                    {{
+                        "answer" : "(total reason)"
+                        "models" : [
+                            {
+                                "model" : "(model name)",
+                                "description" : "(model's description)"
+                            },
+                            ... // If it has more model to recommend.
+                        ] 
+                    }}
                 """
                 )
                 print(run)

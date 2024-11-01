@@ -1,5 +1,5 @@
 import streamlit as st
-from stream import sidebar, chatbot, other_page
+from stream import sidebar, chatbot, json_answer
 
 
 if 'current_page' not in st.session_state:
@@ -9,5 +9,5 @@ sidebar.render_sidebar()
 
 if st.session_state.current_page == 'chatbot':
     chatbot.chatbot_page()
-elif st.session_state.current_page == 'other':
-    other_page.other_feature_page()
+elif st.session_state.current_page == 'json_answer':
+    json_answer.chatbot_page()

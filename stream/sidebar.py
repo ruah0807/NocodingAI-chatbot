@@ -12,8 +12,8 @@ def render_sidebar():
         st.sidebar.header("Navigation")
         if st.sidebar.button("chatbot"):
             st.session_state.current_page = "chatbot"
-        if st.sidebar.button("other"):
-            st.session_state.current_page = "other"
+        if st.sidebar.button("json_answer"):
+            st.session_state.current_page = "json_answer"
 
         st.sidebar.write("---")
 
