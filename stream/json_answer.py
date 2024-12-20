@@ -1,4 +1,4 @@
-import os, sys, time
+import os, sys, time, re
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 import streamlit as st
@@ -41,7 +41,7 @@ def chatbot_page(delay = 0.05):
                 response = client.beta.threads.messages.create(
                     thread_id=st.session_state["thread_id"],
                     role='user',
-                    content=prompt
+                    content=f"""Question : {prompt} \n\n # Answer Only in JSON Format : \n\n If the question is Korean, answer in Korean. If the question is English, answer in English."""
                 )
                 print(response)
 
@@ -49,24 +49,35 @@ def chatbot_page(delay = 0.05):
                     thread_id= st.session_state["thread_id"],
                     assistant_id=ASSISTANT_ID,
                     stream=True,
-                    top_p=1.0,
-                    temperature=0,
+                    temperature=0.76,
+                    top_p=0.9,
                     instructions="""
-                   	Find the models only in the documents.
-                       
-                    {{
-                    {
-                        "answer" : "(total reason)",
-                            "models" : [
-                                {
-                                    "model" : "(model name)",
-                                    "description" : "(model's description)"
-                                },
-                                # ... // If it has more model to recommend.
-                            ]
-                        } 
-                    }}
-                    """,
+Find the models only in the documents that are provided in the vector database.
+
+You MUST recommend at least one model from the documents, even if it's not a perfect match.
+If you can't find an exact match, recommend the closest related models.
+
+Only answer in JSON format.
+
+# Answer JSON Format :    
+{{
+    "answer" : "(total reason)",
+    "models" : [
+        {
+            "model" : "(model name)", 
+            "description" : "(model's description)"
+        },
+        # ... // If it has more model to recommend.
+    ]
+}}
+
+Important:
+- You MUST include at least 1 model in the response
+- Never return an empty models array
+- If no exact match is found, recommend the most relevant models from the documents
+- Focus on finding ANY models that could potentially help, even if not perfect matches
+- If the question is Korean, answer in Korean. If the question is English, answer in English.
+""",
                 )
                 print(run)
 
@@ -84,7 +95,11 @@ def chatbot_page(delay = 0.05):
                     delta_content = event.data.delta.content
                     for item in delta_content:
                         if hasattr(item, "text") and hasattr(item.text, "value"):
-                            msg += item.text.value
+                            # 출처 표시 제거
+                            text_value = item.text.value
+                            print(text_value)
+                            text_value = re.sub(r'【.*?】', '', text_value)
+                            msg += text_value
                             place_holder.markdown(msg + "▌")  # 커서 효과 추가
                             time.sleep(delay)  # 각 메시지 전송 후 지연
 
